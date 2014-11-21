@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v9.50 
-MySQL - 5.6.12-log : Database - seli
+MySQL - 5.6.17 : Database - seli
 *********************************************************************
 */
 
@@ -24,10 +24,14 @@ CREATE TABLE `baseclass` (
   `bc_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `bc_name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `timestamp` datetime DEFAULT NULL,
+  `before_content` text COLLATE utf8mb4_unicode_ci,
+  `after_content` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`bc_id`,`bc_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `baseclass` */
+
+insert  into `baseclass`(`bc_id`,`bc_name`,`timestamp`,`before_content`,`after_content`) values (1,'Home','2014-11-20 22:46:05','import static org.hamcrest.Matchers.equalTo;\nimport static org.junit.Assert.assertThat;\n\nimport org.junit.Before;\nimport org.junit.Test;\nimport org.openqa.selenium.By;\nimport org.openqa.selenium.WebDriver;\nimport org.openqa.selenium.WebElement;\nimport org.openqa.selenium.htmlunit.HtmlUnitDriver;\n\npublic class TestEndToEndPages {\n\n	private WebDriver driver;\n\n	@Before\n	public void setUp() {\n		// Create a new instance of the html unit driver\n		driver = new HtmlUnitDriver();\n\n		//Navigate to desired web page\n		driver.get(\"www.myngconnect.com.com\");\n	}','}'),(2,'SRD','2014-11-20 22:46:05','import static org.hamcrest.Matchers.equalTo;\nimport static org.junit.Assert.assertThat;\n\nimport org.junit.Before;\nimport org.junit.Test;\nimport org.openqa.selenium.By;\nimport org.openqa.selenium.WebDriver;\nimport org.openqa.selenium.WebElement;\nimport org.openqa.selenium.htmlunit.HtmlUnitDriver;\n\npublic class TestEndToEndPages {\n\n	private WebDriver driver;\n\n	@Before\n	public void setUp() {\n		// Create a new instance of the html unit driver\n		driver = new HtmlUnitDriver();\n\n		//Navigate to desired web page\n		driver.get(\"www.myngconnect.com.com\");\n	}','}'),(3,'eEdition','2014-11-20 22:46:05','import static org.hamcrest.Matchers.equalTo;\nimport static org.junit.Assert.assertThat;\n\nimport org.junit.Before;\nimport org.junit.Test;\nimport org.openqa.selenium.By;\nimport org.openqa.selenium.WebDriver;\nimport org.openqa.selenium.WebElement;\nimport org.openqa.selenium.htmlunit.HtmlUnitDriver;\n\npublic class TestEndToEndPages {\n\n	private WebDriver driver;\n\n	@Before\n	public void setUp() {\n		// Create a new instance of the html unit driver\n		driver = new HtmlUnitDriver();\n\n		//Navigate to desired web page\n		driver.get(\"www.myngconnect.com.com\");\n	}','}');
 
 /*Table structure for table `fn_steps` */
 
@@ -35,15 +39,21 @@ DROP TABLE IF EXISTS `fn_steps`;
 
 CREATE TABLE `fn_steps` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `event_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `event_code` text COLLATE utf8mb4_unicode_ci,
+  `event_type` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `var_item_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `event_java_code` text CHARACTER SET utf8mb4,
   `bc_fn_ref_id` mediumint(8) unsigned NOT NULL,
   `list_index` mediumint(8) NOT NULL DEFAULT '0',
+  `event_return` tinyint(1) NOT NULL,
+  `event_return_variable` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `event_return_variable_type` varchar(45) CHARACTER SET utf8mb4 DEFAULT NULL,
   `timestamp` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `fn_steps` */
+
+insert  into `fn_steps`(`id`,`event_type`,`var_item_name`,`event_java_code`,`bc_fn_ref_id`,`list_index`,`event_return`,`event_return_variable`,`event_return_variable_type`,`timestamp`) values (1,'Click','context_menu_srd','context_menu_srd.click();',1,0,0,NULL,NULL,'2014-11-21 00:10:11'),(2,'Click','context_menu_eEdition','context_menu_eEdition.click();',2,0,0,NULL,NULL,'2014-11-21 00:11:22'),(3,'getText','context_menu_eEdition','String var1 = context_menu_eEdition.getText();',3,0,1,'var1','String','2014-11-21 00:23:40'),(5,'AssertEquals','home_header_text','AssertEquals(home_header_text,var1);',3,1,0,NULL,NULL,'2014-11-21 00:28:27');
 
 /*Table structure for table `function` */
 
@@ -52,15 +62,20 @@ DROP TABLE IF EXISTS `function`;
 CREATE TABLE `function` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `fn_name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fn_description` text CHARACTER SET utf8mb4,
   `no_of_parameters` mediumint(8) DEFAULT '0',
-  `parametsrs` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `bc_ref_id` mediumint(8) unsigned NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
+  `param1_type` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `param1_description` text CHARACTER SET utf8mb4,
+  `param2_type` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `param2_description` text COLLATE utf8mb4_unicode_ci,
   `timestamp` datetime DEFAULT NULL,
   PRIMARY KEY (`id`,`fn_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `function` */
+
+insert  into `function`(`id`,`fn_name`,`fn_description`,`no_of_parameters`,`bc_ref_id`,`param1_type`,`param1_description`,`param2_type`,`param2_description`,`timestamp`) values (1,'launch_srd','launch srd from home',1,1,'WebElement','webelement for SRD',NULL,NULL,'2014-11-20 23:06:54'),(2,'launch_eEdition','launch eEdition from home',1,1,'WebElement','webelement for eEdition',NULL,NULL,'2014-11-20 23:07:19'),(3,'validate_header_text','validate home page header text',1,1,'String','reference string value for header text',NULL,NULL,'2014-11-20 23:15:28');
 
 /*Table structure for table `tc_test_case` */
 
@@ -83,8 +98,9 @@ DROP TABLE IF EXISTS `tc_test_steps`;
 CREATE TABLE `tc_test_steps` (
   `id` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `test_case_ref_id` mediumint(8) unsigned NOT NULL,
-  `function_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `function_ref_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
   `function_ref_id` mediumint(8) NOT NULL,
+  `fn_parameters` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
   `list_index` mediumint(8) NOT NULL DEFAULT '0',
   `timestamp` datetime DEFAULT NULL,
   `description` text COLLATE utf8mb4_unicode_ci
@@ -107,19 +123,6 @@ CREATE TABLE `tc_user_story` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `tc_user_story` */
-
-/*Table structure for table `test_cases` */
-
-DROP TABLE IF EXISTS `test_cases`;
-
-CREATE TABLE `test_cases` (
-  `id` bigint(30) NOT NULL AUTO_INCREMENT,
-  `tc_name` varchar(250) NOT NULL,
-  `user_story` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `test_cases` */
 
 /*Table structure for table `users` */
 
@@ -155,11 +158,11 @@ CREATE TABLE `var_item` (
   `timestamp` datetime DEFAULT NULL,
   `final_var_item` text COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`item_id`,`item_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `var_item` */
 
-insert  into `var_item`(`item_id`,`item_name`,`item_type`,`item_value`,`locator_type`,`description`,`linked_to_form_page`,`timestamp`,`final_var_item`) values (1,'srd_button','we','test','xpath','srd button of container',NULL,'2014-11-20 13:22:30',NULL),(2,'srd_button','we','test','xpath','srd button of container',NULL,'2014-11-20 14:26:50',NULL),(3,'srd_button','we','{@class=test','xpath','srd button of container',NULL,'2014-11-20 14:59:49',NULL),(4,'srd_button','we','\\\\div{@class=\'test\'\\\\div','xpath','srd button of container',NULL,'2014-11-20 15:01:58',NULL),(5,'vartest','var','test value','String','test88',NULL,'2014-11-20 15:30:45',NULL),(6,'vartest','var','test value','String','test88',NULL,'2014-11-20 15:32:01',NULL),(7,'vartest','var','test value','String','test889',NULL,'2014-11-20 15:33:36',NULL),(8,'srd_button','WebElement','{@class=\'test','xpath','test4545',NULL,'2014-11-20 15:34:59',NULL),(9,'vartest','String','test','String','test8899',NULL,'2014-11-20 15:35:36',NULL),(10,'srd_button','String','test value','','test888888',NULL,'2014-11-20 15:38:20',NULL),(11,'srd_button','WebElement','test value','cssSelector','test8888889',NULL,'2014-11-20 15:38:45',NULL),(12,'srd_button','WebElement','\\\\div{@class=\'test\'\\\\div','xpath','test88',NULL,'2014-11-20 16:07:29','test'),(13,'test','WebElement','\\\\@test','xpath','test786',NULL,'2014-11-20 16:08:14','WebElement test = driver.findElement(By.xpath(\\\\\\\\@test));'),(14,'test','WebElement','\\@test','xpath','test78633',NULL,'2014-11-20 16:10:20','WebElement test = driver.findElement(By.xpath(\\\\\\\\@test));'),(15,'test','WebElement','\\\\@test','xpath','test786334',NULL,'2014-11-20 16:11:38','WebElement test = driver.findElement(By.xpath(\\\\@test));'),(16,'var11','String','testing test','','test7863345',NULL,'2014-11-20 16:12:46','String var11 = \"testing test\"'),(17,'srd_button','String','test value','id','2222',NULL,'2014-11-20 18:04:45','String srd_button = \"test value\";'),(18,'srd_button12313','String','test value','id','test88',NULL,'2014-11-20 18:18:11','String srd_button12313 = \"test value\";'),(19,'srd_button','WebElement','\\\\div{@class=\'test\'\\\\div','id','444','All','2014-11-20 18:24:12','WebElement srd_button = driver.findElement(By.id(\\\\div{@class=\'test\'\\\\div));'),(20,'srd_button','String','\\\\div{@class=\'test\'\\\\div','id','test88','All','2014-11-20 18:24:47','String srd_button = \"\\\\div{@class=\'test\'\\\\div\";'),(21,'srd_button','String','test value','','test88','All','2014-11-20 18:25:21','String srd_button = \"test value\";');
+insert  into `var_item`(`item_id`,`item_name`,`item_type`,`item_value`,`locator_type`,`description`,`linked_to_form_page`,`timestamp`,`final_var_item`) values (23,'context_menu_srd','WebElement','\\\\div\\srd','xpath','srd context menu xpath','Home','2014-11-21 00:01:29','WebElement context_menu_srd = driver.findElement(By.xpath(\\\\div\\srd));'),(24,'context_menu_eEdition','WebElement','\\\\div\\ebook','xpath','eEdition context menu xpath','Home','2014-11-21 00:02:24','WebElement context_menu_eEdition = driver.findElement(By.xpath(\\\\div\\ebook));'),(25,'home_header_text','String','Home','','Home header text value','Home','2014-11-21 00:03:06','String home_header_text = \"Home\";');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
